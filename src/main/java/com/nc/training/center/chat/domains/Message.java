@@ -1,3 +1,4 @@
+/*
 package com.nc.training.center.chat.domains;
 
 import javax.persistence.Entity;
@@ -56,3 +57,4 @@ public class Message {
 
 
 }
+*/

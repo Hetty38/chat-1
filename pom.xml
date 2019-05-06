@@ -11,6 +11,7 @@
     <groupId>com.nc.training.center</groupId>
     <artifactId>chat</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <!--<packaging>jar</packaging>-->
     <name>chat</name>
     <description>Chat project for Spring Boot</description>
 
@@ -19,22 +20,22 @@
     </properties>
 
     <dependencies>
-        <dependency>
+       <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-amqp</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-amqp</artifactId>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -44,15 +45,16 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
+     <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
+   <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <version>1.4.199</version>
+
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,6 +66,7 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

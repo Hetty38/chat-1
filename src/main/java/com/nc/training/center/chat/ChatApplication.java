@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 public class ChatApplication {
-    private final static Logger LOGGER = LoggerFactory.getLogger(ChatApplication.class);
+   // private final static Logger LOGGER = LoggerFactory.getLogger(ChatApplication.class);
 
     public static void main(String[] args) {
 
@@ -17,9 +17,9 @@ public class ChatApplication {
     }
 
 //    пример логирования
-    @PostConstruct
-    public void foo(){
-        LOGGER.info("пример логирования");
-    }
+  //  @PostConstruct
+ //   public void foo(){
+  //      LOGGER.info("пример логирования");
+  //  }
 
 }
