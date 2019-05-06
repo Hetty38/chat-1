@@ -9,10 +9,10 @@ import java.util.Set;
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue
-    @Column(name = "Id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+ //   @Column(name = "Id", nullable = false)
     private Long id;
-    @Column(name = "login", length = 10, nullable = false)
+   // @Column(name = "login", length = 10, nullable = false)
     private String login;
     private String password;
 
@@ -41,6 +41,14 @@ public class User {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public String getLogin() {
         return login;
