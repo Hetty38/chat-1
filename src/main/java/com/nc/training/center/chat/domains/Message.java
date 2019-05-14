@@ -1,4 +1,4 @@
-/*
+
 package com.nc.training.center.chat.domains;
 
 import javax.persistence.Entity;
@@ -10,10 +10,18 @@ public class Message {
     @Id
     private Long id;
     private String msg;
-    private User sender;
-    private User recipient;
-    private LocalDateTime sendDate;
-    GroupChat chat;
+  //  private User sender;
+ //   private User recipient;
+ //   private LocalDateTime sendDate;
+ //   GroupChat chat;
+
+    public Message() {
+    }
+
+
+    public Message(String msg) {
+        this.msg = msg;
+    }
 
     public String getMsg() {
         return msg;
@@ -22,7 +30,7 @@ public class Message {
     public void setMsg(String msg) {
         this.msg = msg;
     }
-
+/*
     public User getSender() {
         return sender;
     }
@@ -37,24 +45,24 @@ public class Message {
 
     public void setRecipient(User recipient) {
         this.recipient = recipient;
-    }
+    }*/
 
-    public LocalDateTime getSendDate() {
+   /* public LocalDateTime getSendDate() {
         return sendDate;
     }
 
     public void setSendDate(LocalDateTime sendDate) {
         this.sendDate = sendDate;
-    }
+    }*/
 
-    public GroupChat getChat() {
+  /*  public GroupChat getChat() {
         return chat;
     }
 
     public void setChat(GroupChat chat) {
         this.chat = chat;
-    }
+    }*/
 
 
 }
-*/
+

@@ -1,3 +1,4 @@
+
 package com.nc.training.center.chat.domains;
 
 
@@ -6,7 +7,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

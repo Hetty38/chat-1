@@ -1,4 +1,4 @@
-package com.nc.training.center.chat.services.api;
+/*package com.nc.training.center.chat.services.api;
 
 import com.nc.training.center.chat.domains.Role;
 import com.nc.training.center.chat.domains.User;
@@ -20,4 +20,4 @@ public interface UserService {
     List<User> getAll();
 
 
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.nc.training.center.chat.services.impl;
 
 import com.nc.training.center.chat.domains.User;
@@ -33,3 +34,4 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 }
+*/

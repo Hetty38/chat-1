@@ -1,5 +1,5 @@
-package com.nc.training.center.chat.configuratons;
 
+package com.nc.training.center.chat.configuratons;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,9 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/home.html", "/registration.html").permitAll()//странички куда есть доступ у всех
-                /* .and()
-                 .authorizeRequests()
-                 .antMatchers("/console/*").permitAll()*/
+
+                .and()
+                .authorizeRequests()
+               // .antMatchers("/console/*").permitAll()
+
                 .anyRequest().authenticated()//Любой URL, который еще не был найден, требует только аутентификации пользователя(сюда можно еще фигануть дотуп для разных ролей)
                 .and()
                 .formLogin()
@@ -38,13 +40,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .permitAll();
-       /* http.csrf().disable();
-        http.headers().frameOptions().disable();*/
     }
 
-        @Bean
+
+/* http.csrf().disable();
+        http.headers().frameOptions().disable();*//*
+*/
+
+
+
+
+
+       /* @Bean
         @Override
-        public UserDetailsService userDetailsService() {
+        public UserDetailsService userDetailsService () {
             UserDetails user =
                     User.withDefaultPasswordEncoder()
                             .username("user")
@@ -53,13 +62,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             .build();
 
             return new InMemoryUserDetailsManager(user);
-        }
-    /*@Override
+        }*/
+
+
+@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())//временно
                 .usersByUsernameQuery("select login, password, active from user where login=?")//найти пользователя по его имени
                 .authoritiesByUsernameQuery("select u.login, ur.roles from user u inner join user_role ur on u.id= ur.user_id where u.login=?");//получить список пользователей с их ролями
-    }*/
+    }
+
+
 }
