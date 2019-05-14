@@ -25,9 +25,16 @@ public class AccountController {
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
         User userFromDb = userRepository.findByLogin(user.getLogin());
-        if (userFromDb != null) {
-            model.put("message", "User exists!");
-        }
+      try {
+          model.put("message", "User exists!");
+      }
+      catch (Exception e)
+      {
+          throw new Exception()
+      }
+      //прописать нормально обработку ошибки
+
+
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
