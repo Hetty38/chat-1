@@ -25,7 +25,6 @@ public class AccountController {
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
         try {
-            User userFromDb = userRepository.findByLogin(user.getLogin());
 
             user.setActive(true);
             user.setRoles(Collections.singleton(Role.USER));
