@@ -43,12 +43,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-/*
-    @Bean
+
+   /* @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-*/
+    }*/
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

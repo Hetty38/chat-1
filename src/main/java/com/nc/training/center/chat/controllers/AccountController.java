@@ -24,21 +24,18 @@ public class AccountController {
 
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepository.findByLogin(user.getLogin());
-      try {
-          model.put("message", "User exists!");
-      }
-      catch (Exception e)
-      {
-          throw new Exception()
-      }
-      //прописать нормально обработку ошибки
+        try {
+            User userFromDb = userRepository.findByLogin(user.getLogin());
 
+            user.setActive(true);
+            user.setRoles(Collections.singleton(Role.USER));
+            userRepository.save(user);
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepository.save(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return "redirect:/login.html";
-    }
 
+    }
 }
+

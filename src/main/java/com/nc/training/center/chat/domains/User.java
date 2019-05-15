@@ -14,9 +14,9 @@ import java.util.Set;
 public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "Id", nullable = false)
+  @Column(nullable = false)
     private Long id;
-    @Column(name = "login", unique = true)
+    @Column( unique = true)
     private String login;
     private String password;
 
