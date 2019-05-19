@@ -1,9 +1,12 @@
 
 package com.nc.training.center.chat.configuratons;
 
+import com.nc.training.center.chat.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,8 +25,9 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-
     private DataSource dataSource;
+    @Autowired
+    private UserServiceImpl userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,21 +48,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-   /* @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }*/
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("select login, password, active from user where login=?")//найти пользователя по его имени
-                .authoritiesByUsernameQuery("select u.login, ur.roles from user u inner join user_role ur on u.id= ur.user_id where u.login=?")//получить список пользователей с их ролями
-                .passwordEncoder(new BCryptPasswordEncoder());//так правильно? или как правильно прописать этот метод. не очень поняла
 
-        //UserDetailsService private поле  и нет сеттера???
+        auth.userDetailsService(userService)
+                .passwordEncoder(new BCryptPasswordEncoder());
+
     }
 
 
 }
+/*
+
+       auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select login, password, active from user where login=?")//найти пользователя по его имени
+                .authoritiesByUsernameQuery("select u.login, ur.roles from user u inner join user_role ur on u.id= ur.user_id where u.login=?")//получить список пользователей с их ролями
+                .passwordEncoder(new BCryptPasswordEncoder());
+*/

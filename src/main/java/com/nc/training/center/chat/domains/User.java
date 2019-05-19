@@ -13,12 +13,12 @@ import java.util.Set;
 @Entity
 public class User  implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(nullable = false)
+    @GeneratedValue
     private Long id;
     @Column( unique = true)
     private String login;
     private String password;
+    //private boolean active;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -58,20 +58,18 @@ public class User  implements UserDetails {
         this.password = password;
     }
 
-    public boolean isActive() {
+   /* public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
-    }
+    }*/
 
-    private boolean active;
 
-    private byte age;
-    private LocalDate birthday;
-    private LocalDate registrationDay;
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+
+
+   /* @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
@@ -82,7 +80,8 @@ public class User  implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
+    }*/
+
 
     public String getLogin() {
         return login;
@@ -92,7 +91,7 @@ public class User  implements UserDetails {
         this.login = login;
     }
 
-    public byte getAge() {
+ /*   public byte getAge() {
         return age;
     }
 
@@ -114,7 +113,7 @@ public class User  implements UserDetails {
 
     public void setRegistrationDay(LocalDate registrationDay) {
         this.registrationDay = registrationDay;
-    }
+    }*/
 
 
 }
