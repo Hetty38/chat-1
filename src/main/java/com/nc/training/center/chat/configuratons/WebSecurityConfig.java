@@ -24,8 +24,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DataSource dataSource;
+
     @Autowired
     private UserServiceImpl userService;
 
@@ -34,7 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/home.html", "/registration").permitAll()//странички куда есть доступ у всех
-
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()//Любой URL, который еще не был найден, требует только аутентификации пользователя(сюда можно еще фигануть дотуп для разных ролей)

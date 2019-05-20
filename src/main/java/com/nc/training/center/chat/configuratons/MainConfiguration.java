@@ -11,7 +11,7 @@ public class MainConfiguration implements WebMvcConfigurer {
         registry.addViewController("/home.html").setViewName("home");
         registry.addViewController("/").setViewName("home");
        registry.addViewController("/hello.html").setViewName("hello");
-        registry.addViewController("/login.html").setViewName("login.html");
+        registry.addViewController("/login.html").setViewName("login");
     }
 
 }

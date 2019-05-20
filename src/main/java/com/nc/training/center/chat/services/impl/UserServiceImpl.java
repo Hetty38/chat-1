@@ -12,6 +12,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -21,21 +25,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = userRepository.findByLogin(login);
-        if (user == null) {
-            throw new UsernameNotFoundException(login);
-        }
-        return user;
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByLogin(username);
     }
 
     @Override
     public boolean addUser(String login, String pass) {
+
         User user = new User();
         user.setLogin(login);
         user.setPassword(new BCryptPasswordEncoder().encode(pass));
 /*      user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));*/
+*/
+        user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
         return true;
     }
