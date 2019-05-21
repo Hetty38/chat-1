@@ -1,68 +1,62 @@
-
 package com.nc.training.center.chat.domains;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import com.nc.training.center.chat.domains.User;
+
+import javax.persistence.*;
 
 @Entity
 public class Message {
     @Id
-    private Long id;
-    private String msg;
-  //  private User sender;
- //   private User recipient;
- //   private LocalDateTime sendDate;
- //   GroupChat chat;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    private String text;
+
+
+
 
     public Message() {
     }
 
+    public Message(String text) {
 
-    public Message(String msg) {
-        this.msg = msg;
+        this.text = text;
+
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 /*
-    public User getSender() {
-        return sender;
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public User getAuthor() {
+        return author;
     }
 
-    public User getRecipient() {
-        return recipient;
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+*/
+
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public void setRecipient(User recipient) {
-        this.recipient = recipient;
-    }*/
-
-   /* public LocalDateTime getSendDate() {
-        return sendDate;
+    public String getText() {
+        return text;
     }
 
-    public void setSendDate(LocalDateTime sendDate) {
-        this.sendDate = sendDate;
-    }*/
-
-  /*  public GroupChat getChat() {
-        return chat;
+    public Integer getId() {
+        return id;
     }
 
-    public void setChat(GroupChat chat) {
-        this.chat = chat;
-    }*/
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
 
 }
+
+
+
 

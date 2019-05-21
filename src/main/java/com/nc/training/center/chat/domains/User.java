@@ -1,4 +1,3 @@
-
 package com.nc.training.center.chat.domains;
 
 
@@ -84,7 +83,6 @@ public class User implements UserDetails {
    /* public boolean isActive() {
         return active;
     }
-
     public void setActive(boolean active) {
         this.active = active;
     }*/
@@ -101,27 +99,21 @@ public class User implements UserDetails {
  /*   public byte getAge() {
         return age;
     }
-
     public void setAge(byte age) {
         this.age = age;
     }
-
     public LocalDate getBirthday() {
         return birthday;
     }
-
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
-
     public LocalDate getRegistrationDay() {
         return registrationDay;
     }
-
     public void setRegistrationDay(LocalDate registrationDay) {
         this.registrationDay = registrationDay;
     }*/
 
 
 }
-
