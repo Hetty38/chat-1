@@ -26,7 +26,7 @@ public class AccountController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return "redirect:/login.html";
+        return "redirect:/login";
 
     }
    /* @GetMapping("/login.html")
