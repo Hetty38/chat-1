@@ -1,6 +1,5 @@
 package com.nc.training.center.chat.controllers;
 
-import com.nc.training.center.chat.repositories.UserRepository;
 import com.nc.training.center.chat.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +25,10 @@ public class AccountController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return "redirect:/login.html";
+        return "redirect:/login";
 
     }
-   /* @GetMapping("/login.html")
-  public String login() {
-        return "login.html";
-    }*/
+
 
 
 

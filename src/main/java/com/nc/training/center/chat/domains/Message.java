@@ -1,68 +1,68 @@
-
 package com.nc.training.center.chat.domains;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.*;
 
 @Entity
 public class Message {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String msg;
-  //  private User sender;
- //   private User recipient;
- //   private LocalDateTime sendDate;
- //   GroupChat chat;
+    private String text;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id")
+    private User author;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "addressee_id")
+    private User addressee;
+
+    public User getAddressee() {
+        return addressee;
+    }
+
+    public void setAddressee(User addressee) {
+        this.addressee = addressee;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 
     public Message() {
     }
 
-
-    public Message(String msg) {
-        this.msg = msg;
+    public Message(String text) {
+        this.text = text;
     }
 
-    public String getMsg() {
-        return msg;
+    public Message(String text, User user, User addressee) {
+        this.text = text;
+        this.author = user;
+        this.addressee=addressee;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-/*
-    public User getSender() {
-        return sender;
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "<none>";
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public Long getId() {
+        return id;
     }
 
-    public User getRecipient() {
-        return recipient;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setRecipient(User recipient) {
-        this.recipient = recipient;
-    }*/
-
-   /* public LocalDateTime getSendDate() {
-        return sendDate;
+    public String getText() {
+        return text;
     }
 
-    public void setSendDate(LocalDateTime sendDate) {
-        this.sendDate = sendDate;
-    }*/
-
-  /*  public GroupChat getChat() {
-        return chat;
+    public void setText(String text) {
+        this.text = text;
     }
-
-    public void setChat(GroupChat chat) {
-        this.chat = chat;
-    }*/
 
 
 }
-

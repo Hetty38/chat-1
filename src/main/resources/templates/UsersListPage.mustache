@@ -1,0 +1,25 @@
+<html>
+<body>
+<div>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>
+
+</div>
+<div>Список пользователей</div>
+<form method="post" action="filter">
+    <input type="text" name="filter" placeholder="Введите логин">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+    <button type="submit">Найти</button>
+</form>
+{{#users}}
+    <div>
+
+        <a href="/Chat/{{login}}"><strong>{{login}}</strong></a>
+    </div>
+{{/users}}
+</body>
+</html>
