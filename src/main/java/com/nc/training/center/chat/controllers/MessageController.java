@@ -69,22 +69,24 @@ public class MessageController {
     }
 
     @GetMapping("/Chat/{addressee}")
-    public String ChatM(Map<String, Object> mod,@PathVariable("addressee") String addressee ,@AuthenticationPrincipal User user) {
-        Iterable<Message> messages = messageRepository.findAllByAuthor_LoginAndAddressee_Login(user.getLogin(),addressee);
+    public String ChatM(Map<String, Object> mod, @PathVariable("addressee") String addressee, @AuthenticationPrincipal User user) {
+        Iterable<Message> messages = messageRepository.findAllByAuthor_LoginOrAddressee_LoginAndAddressee_LoginOrAuthor_Login(user.getLogin(), addressee,addressee,user.getLogin());
         mod.put("messages", messages);
         return "Chat";
     }
+
     @GetMapping("/Chat")
     public String Chat(Map<String, Object> mod) {
         return "Chat";
     }
+
     @PostMapping("/Chat/{addressee}")
-    public String addInChat(String text, Map<String, Object> mod, @AuthenticationPrincipal User user,@PathVariable("addressee") String addressee) {
+    public String addInChat(String text, Map<String, Object> mod, @AuthenticationPrincipal User user, @PathVariable("addressee") String addressee) {
         try {
             User addr = userRepository.findByLogin(addressee);
             messageService.addMessage(text, user, addr);
-            Iterable<Message> messages = messageRepository.findAllByAuthor_LoginAndAddressee_Login(user.getLogin(),addressee);//тут проблема
-
+            Iterable<Message> messages = messageRepository.findAllByAuthor_LoginOrAddressee_LoginAndAddressee_LoginOrAuthor_Login(user.getLogin(), addressee,addressee,user.getLogin());//тут проблема
+           // ((List<Message>) messages).addAll(messageRepository.findAllByAuthor_LoginAndAddressee_Login(addressee, user.getLogin()));
             mod.put("messages", messages);
 
         } catch (Exception e) {
