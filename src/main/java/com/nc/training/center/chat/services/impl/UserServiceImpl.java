@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 
+
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
-
 
     @Autowired
     private UserRepository userRepository;
@@ -33,11 +33,29 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         User user = new User();
         user.setLogin(login);
         user.setPassword(new BCryptPasswordEncoder().encode(pass));
-/*      user.setActive(true);
-*/
+        /*      user.setActive(true);
+         */
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
         return true;
     }
+
+    @Override
+    public Iterable<User> GetAllUsers() {
+        Iterable<User> users = userRepository.findAll();
+        return users;
+    }
+
+    @Override
+    public Iterable<User> FilterByLogin(String filter) {
+        return userRepository.findAllByLogin(filter);
+    }
+
+    @Override
+    public User getUserByLogin(String username) {
+        return userRepository.findByLogin(username);
+
+    }
+
 }
 

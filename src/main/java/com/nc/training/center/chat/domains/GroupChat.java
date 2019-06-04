@@ -1,50 +1,51 @@
 
-/*
 package com.nc.training.center.chat.domains;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "grChat")
 public class GroupChat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String title;
+    @ElementCollection(targetClass = User.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "users_in_chat", joinColumns = @JoinColumn(name = "group_chat_id"))
+    private List<User> usersInChat;
+    private String name;
 
-    List<User> userList = new ArrayList<>();
-  //  List<Message> msgList = new ArrayList<>();
-
-   // public List<Message> getMsgList() {
-     */
-/*   return msgList;
-    }*//*
-
-
-   // public void setMsgList(List<Message> msgList) {
-    //    this.msgList = msgList;
-    //}
-
-    public String getTitle() {
-        return title;
+    public GroupChat() {
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public List<User> getUsersInChat() {
+        return usersInChat;
     }
 
-    public List<User> getUserList() {
-        return userList;
+    public void setUsersInChat(List<User> usersInChat) {
+        this.usersInChat = usersInChat;
     }
 
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
+
+    public GroupChat(String name) {
+        this.name = name;
     }
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
-
-*/

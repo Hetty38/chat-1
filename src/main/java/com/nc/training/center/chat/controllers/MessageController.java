@@ -1,10 +1,9 @@
 package com.nc.training.center.chat.controllers;
 
+import com.nc.training.center.chat.domains.GroupChat;
 import com.nc.training.center.chat.domains.Message;
 import com.nc.training.center.chat.domains.User;
-import com.nc.training.center.chat.repositories.MessageRepository;
-import com.nc.training.center.chat.repositories.UserRepository;
-import com.nc.training.center.chat.services.api.MessageService;
+import com.nc.training.center.chat.services.impl.MessageServiceImpl;
 import com.nc.training.center.chat.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,19 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MessageController {
 
     @Autowired
-    private MessageService messageService;
-    @Autowired
-    private MessageRepository messageRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private MessageServiceImpl messageService;
+
     @Autowired
     private UserServiceImpl userService;
 
@@ -63,14 +57,15 @@ public class MessageController {
 
     @GetMapping("/UsersListPage")
     public String UsersListPage(Map<String, Object> mod) {
-        Iterable<User> users = userRepository.findAll();
+        Iterable<User> users = userService.GetAllUsers();
         mod.put("users", users);
         return "UsersListPage";
     }
 
     @GetMapping("/Chat/{addressee}")
     public String ChatM(Map<String, Object> mod, @PathVariable("addressee") String addressee, @AuthenticationPrincipal User user) {
-        Iterable<Message> messages = messageRepository.findAllByAuthor_LoginOrAddressee_LoginAndAddressee_LoginOrAuthor_Login(user.getLogin(), addressee,addressee,user.getLogin());
+
+        List<Message> messages = messageService.chat(mod, addressee, user);
         mod.put("messages", messages);
         return "Chat";
     }
@@ -80,15 +75,36 @@ public class MessageController {
         return "Chat";
     }
 
+    @GetMapping("/CreateChat")
+    public String CreateChat(Map<String, Object> mod) {
+        Iterable<User> users = userService.GetAllUsers();
+        mod.put("users", users);
+        return "CreateChat";
+    }
+
+    @PostMapping("/CreateChat")
+    public String PostCreateChat(String[] checkbox, String chat) {
+
+        GroupChat groupChat = new GroupChat(chat);
+// groupChat.setUsersInChat(Arrays.asList(checkbox));
+        List<User> grChatusers = new ArrayList<>();
+        for (String check : checkbox) {
+            grChatusers.add(userService.getUserByLogin(check));
+        }
+        groupChat.setUsersInChat(grChatusers);
+
+
+        return "CreateChat";
+    }
+
     @PostMapping("/Chat/{addressee}")
     public String addInChat(String text, Map<String, Object> mod, @AuthenticationPrincipal User user, @PathVariable("addressee") String addressee) {
         try {
-            User addr = userRepository.findByLogin(addressee);
-            messageService.addMessage(text, user, addr);
-            Iterable<Message> messages = messageRepository.findAllByAuthor_LoginOrAddressee_LoginAndAddressee_LoginOrAuthor_Login(user.getLogin(), addressee,addressee,user.getLogin());//тут проблема
-           // ((List<Message>) messages).addAll(messageRepository.findAllByAuthor_LoginAndAddressee_Login(addressee, user.getLogin()));
-            mod.put("messages", messages);
 
+            User addr = messageService.findAddressee(addressee);
+            messageService.addMessage(text, user, addr);
+            List<Message> messages = messageService.chat(mod, addressee, user);
+            mod.put("messages", messages);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -101,15 +117,16 @@ public class MessageController {
         Iterable<User> users;
 
         if (filter != null && !filter.isEmpty()) {
-            users = userRepository.findAllByLogin(filter);
+            users = userService.FilterByLogin(filter);
         } else {
-            users = userRepository.findAll();
+            users = userService.GetAllUsers();
         }
 
         model.put("users", users);
 
         return "/UsersListPage";
     }
+
 }
 
 

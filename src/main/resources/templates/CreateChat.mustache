@@ -1,0 +1,20 @@
+<div xmlns:input="http://www.w3.org/1999/html">
+
+
+    <form action="/logout" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+    <div>
+        <form method="post" action="/CreateChat">
+            <input type="text" name="chat" placeholder="Введите название чата"/>
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+            <button type="submit">Создать чат</button>
+            <div>Список пользователей</div>
+            {{#users}}
+                <div>
+                    <td><input type="checkbox" name="checkbox" value={{login}}>{{login}}</td>
+                </div>
+            {{/users}}
+        </form>
+    </div>
+</div>
