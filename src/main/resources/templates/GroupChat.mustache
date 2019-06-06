@@ -1,0 +1,18 @@
+<div>
+    <form action="/GroupChat/{IdChat}" method="post">
+        <input type="text" name="text" placeholder="Введите сообщение" />
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <button type="submit">Отправить</button>
+    </form>
+</div>
+
+<div>Список сообщений</div>
+{{#messages}}
+    <div>
+        <strong>{{authorName}}</strong>
+        <span>{{text}}</span>
+    </div>
+{{/messages}}
+
+</body>
+</html>

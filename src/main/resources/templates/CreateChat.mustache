@@ -16,5 +16,12 @@
                 </div>
             {{/users}}
         </form>
+        <form method="post" action="/groupChats">
+            {{#chats}}
+                <div>
+                    <a href="/GroupChat/{{id}}"><strong>{{name}}</strong></a>
+                </div>
+            {{/chats}}
+        </form>
     </div>
 </div>

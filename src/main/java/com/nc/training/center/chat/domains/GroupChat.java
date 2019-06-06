@@ -9,7 +9,7 @@ import java.util.List;
 public class GroupChat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id;// почему- то не генерится
     @ElementCollection(targetClass = User.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "users_in_chat", joinColumns = @JoinColumn(name = "group_chat_id"))
     private List<User> usersInChat;

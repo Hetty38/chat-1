@@ -11,15 +11,8 @@ public interface UserService {
     Iterable<User> GetAllUsers();
 
     Iterable<User> FilterByLogin(String filter);
-    User getUserByLogin(String username);
 
-   /* void delete(long id);
-
-    User getByName(String name);
-
-    User editUser(User user);
-
-    List<User> getAll();*/
+    List<User> getUsersByLogin(String username);
 
 
 }

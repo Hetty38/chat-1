@@ -14,6 +14,17 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "addressee_id")
     private User addressee;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "groupchat_id")
+    private GroupChat groupChat;
+
+    public GroupChat getGroupChat() {
+        return groupChat;
+    }
+
+    public void setGroupChat(GroupChat groupChat) {
+        this.groupChat = groupChat;
+    }
 
     public User getAddressee() {
         return addressee;
@@ -41,7 +52,11 @@ public class Message {
     public Message(String text, User user, User addressee) {
         this.text = text;
         this.author = user;
-        this.addressee=addressee;
+        this.addressee = addressee;
+    }
+    public Message(String text, User user) {
+        this.text = text;
+        this.author = user;
     }
 
     public String getAuthorName() {

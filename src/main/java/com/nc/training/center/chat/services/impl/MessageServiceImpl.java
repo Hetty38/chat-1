@@ -1,5 +1,6 @@
 package com.nc.training.center.chat.services.impl;
 
+import com.nc.training.center.chat.domains.GroupChat;
 import com.nc.training.center.chat.domains.Message;
 import com.nc.training.center.chat.domains.User;
 import com.nc.training.center.chat.repositories.MessageRepository;
@@ -26,6 +27,13 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.save(message);
         return true;
     }
+    @Override
+    public boolean addMessage(String text, User user) {
+
+        Message message = new Message(text, user);
+        messageRepository.save(message);
+        return true;
+    }
 
     @Override
     public List<Message> chat(Map<String, Object> mod, String addressee, User user) {
@@ -41,10 +49,10 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> addUsersInChat() {
-        Iterable<User> users = userRepository.findAll();
+    public Iterable<Message> MessagesInGroupChat(GroupChat groupChat) {
 
-        return null;
+
+        return messageRepository.findAllByGroupChat(groupChat);
     }
 
 

@@ -9,7 +9,7 @@
     <a href="/UsersListPage"> Посмотреть список пользователей</a>
 </div>
 <div>
-    <form action="/Chat/{{addressee}}" method="post">
+    <form action="/PersonalChat/{{addressee}}" method="post">
         <input type="text" name="text" placeholder="Введите сообщение" />
         <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
         <button type="submit">Отправить</button>

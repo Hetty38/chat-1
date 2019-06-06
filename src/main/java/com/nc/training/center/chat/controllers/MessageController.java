@@ -1,10 +1,13 @@
 package com.nc.training.center.chat.controllers;
 
+import com.nc.training.center.chat.ChatApplication;
 import com.nc.training.center.chat.domains.GroupChat;
 import com.nc.training.center.chat.domains.Message;
 import com.nc.training.center.chat.domains.User;
+import com.nc.training.center.chat.services.impl.GroupChatServiceImpl;
 import com.nc.training.center.chat.services.impl.MessageServiceImpl;
 import com.nc.training.center.chat.services.impl.UserServiceImpl;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 @Controller
 public class MessageController {
@@ -22,7 +26,9 @@ public class MessageController {
 
     @Autowired
     private UserServiceImpl userService;
-
+    @Autowired
+    private GroupChatServiceImpl groupChatService;
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MessageController.class);
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
         return "home";
@@ -30,7 +36,9 @@ public class MessageController {
 
     @GetMapping("/login")
     public String login(Map<String, Object> model) {
+        // LOGGER.info("-------------------************************");
         return "login";
+
     }
 /*
     @GetMapping("/UserPage")
@@ -56,48 +64,70 @@ public class MessageController {
     }*/
 
     @GetMapping("/UsersListPage")
-    public String UsersListPage(Map<String, Object> mod) {
+    public String usersListPage(Map<String, Object> mod) {
         Iterable<User> users = userService.GetAllUsers();
         mod.put("users", users);
         return "UsersListPage";
     }
 
-    @GetMapping("/Chat/{addressee}")
-    public String ChatM(Map<String, Object> mod, @PathVariable("addressee") String addressee, @AuthenticationPrincipal User user) {
+    @GetMapping("/GroupChat/{IdChat}")
+    public String groupChat(Map<String, Object> mod, @AuthenticationPrincipal User user, @PathVariable Long IdChat) {
+        GroupChat groupChat = groupChatService.getGroupChatById(IdChat);
+        groupChat.getUsersInChat().add(user);
+        Iterable<Message> messages = messageService.MessagesInGroupChat(groupChat);
+        mod.put("messages", messages);
+        return "GroupChat/{IdChat}";
+    }
+
+    @PostMapping("/GroupChat/{IdChat}")
+    public String groupChatPost(Map<String, Object> mod, @AuthenticationPrincipal User user, @PathVariable Long IdChat, String text) {
+        GroupChat groupChat = groupChatService.getGroupChatById(IdChat);
+        groupChat.getUsersInChat().add(user);
+        messageService.addMessage(text, user);
+        Iterable<Message> messages = messageService.MessagesInGroupChat(groupChat);
+        mod.put("messages", messages);
+        return "GroupChat/{IdChat}";
+    }
+
+    @GetMapping("/PersonalChat/{addressee}")
+    public String chatM(Map<String, Object> mod, @PathVariable("addressee") String addressee, @AuthenticationPrincipal User user) {
 
         List<Message> messages = messageService.chat(mod, addressee, user);
         mod.put("messages", messages);
-        return "Chat";
+        return "PersonalChat";
     }
 
-    @GetMapping("/Chat")
-    public String Chat(Map<String, Object> mod) {
-        return "Chat";
+    @GetMapping("/PersonalChat")
+    public String chat(Map<String, Object> mod) {
+        return "PersonalChat";
     }
 
     @GetMapping("/CreateChat")
-    public String CreateChat(Map<String, Object> mod) {
+    public String createChat(Map<String, Object> mod) {
         Iterable<User> users = userService.GetAllUsers();
         mod.put("users", users);
         return "CreateChat";
     }
 
     @PostMapping("/CreateChat")
-    public String PostCreateChat(String[] checkbox, String chat) {
+    public String postCreateChat(String[] checkbox, String chat) {
 
-        GroupChat groupChat = new GroupChat(chat);
-// groupChat.setUsersInChat(Arrays.asList(checkbox));
-        List<User> grChatusers = new ArrayList<>();
-        for (String check : checkbox) {
-            grChatusers.add(userService.getUserByLogin(check));
-        }
-        groupChat.setUsersInChat(grChatusers);
+        GroupChat groupChat = groupChatService.createGroupChat(checkbox, chat);
 
 
-        return "CreateChat";
+        return "GroupChat/" + groupChat.getId();
+
     }
 
-    @PostMapping("/Chat/{addressee}")
+    @GetMapping("groupChats")
+    public String listGroupChats(Map<String, Object> mod, @AuthenticationPrincipal User user) {
+
+        Iterable<GroupChat> groupChats = groupChatService.getChatsByUsersContains(user);
+        mod.put("groupChats", groupChats);
+        return "/CreateChat";
+    }
+
+    @PostMapping("/PersonalChat/{addressee}")
     public String addInChat(String text, Map<String, Object> mod, @AuthenticationPrincipal User user, @PathVariable("addressee") String addressee) {
         try {
 
@@ -106,10 +136,10 @@ public class MessageController {
             List<Message> messages = messageService.chat(mod, addressee, user);
             mod.put("messages", messages);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LOGGER.info(e.getMessage());
         }
 
-        return "redirect:/Chat/" + addressee;
+        return "redirect:/PersonalChat/" + addressee;
     }
 
     @PostMapping("filter")
