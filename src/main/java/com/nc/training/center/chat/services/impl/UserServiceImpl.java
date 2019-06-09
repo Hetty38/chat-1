@@ -39,18 +39,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public Iterable<User> GetAllUsers(User user) {
+    public Iterable<User> getAllUsers(User user) {
         Iterable<User> users = userRepository.findAllByLoginNot(user.getLogin());
         return users;
     }
     @Override
-    public Iterable<User> GetAllUsers() {
+    public Iterable<User> getAllUsers() {
         Iterable<User> users = userRepository.findAll();
         return users;
     }
 
     @Override
-    public List<User> FilterByLogin(String filter) {
+    public List<User> filterByLogin(String filter) {
         return userRepository.findAllByLogin(filter);
     }
 

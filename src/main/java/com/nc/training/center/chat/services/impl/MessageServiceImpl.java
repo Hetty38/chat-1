@@ -50,7 +50,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Iterable<Message> MessagesInGroupChat(GroupChat groupChat) {
+    public Iterable<Message> messagesInGroupChat(GroupChat groupChat) {
 
         return messageRepository.findAllByGroupChat(groupChat);
     }

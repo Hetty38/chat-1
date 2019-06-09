@@ -16,6 +16,6 @@ public interface MessageService {
 
     User findAddressee(String addressee);
 
-    Iterable<Message> MessagesInGroupChat(GroupChat groupChat);
+    Iterable<Message> messagesInGroupChat(GroupChat groupChat);
 
 }

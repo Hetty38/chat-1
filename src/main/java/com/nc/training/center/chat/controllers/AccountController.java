@@ -2,6 +2,7 @@ package com.nc.training.center.chat.controllers;
 
 import com.nc.training.center.chat.repositories.UserRepository;
 import com.nc.training.center.chat.services.impl.UserServiceImpl;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ public class AccountController {
 
     @Autowired
     private UserServiceImpl userService;
+    private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 
     @GetMapping("/registration")
     public String registration() {
@@ -24,16 +26,11 @@ public class AccountController {
 
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LOGGER.info(e.getMessage());
         }
         return "redirect:/login";
 
     }
-   /* @GetMapping("/login.html")
-  public String login() {
-        return "login.html";
-    }*/
-
 
 }
 

@@ -8,10 +8,11 @@ public interface UserService {
 
     boolean addUser(String login, String password);
 
-    Iterable<User> GetAllUsers(User user);
-    Iterable<User> GetAllUsers();
+    Iterable<User> getAllUsers(User user);
 
-    List<User> FilterByLogin(String filter);
+    Iterable<User> getAllUsers();
+
+    List<User> filterByLogin(String filter);
 
     List<User> getUserByLogin(List<String> logins);
 

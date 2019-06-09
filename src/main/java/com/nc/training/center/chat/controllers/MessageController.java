@@ -36,7 +36,6 @@ public class MessageController {
 
     @GetMapping("/login")
     public String login(Map<String, Object> model) {
-        // LOGGER.info("-------------------************************");
         return "login";
 
     }
