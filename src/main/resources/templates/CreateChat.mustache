@@ -1,10 +1,9 @@
 <div xmlns:input="http://www.w3.org/1999/html">
-
-
     <form action="/logout" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
     <div>
+        <a href="/">Вернуться на главную</a>
         <form method="post" action="/CreateChat">
             <input type="text" name="chat" placeholder="Введите название чата"/>
             <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
@@ -12,16 +11,15 @@
             <div>Список пользователей</div>
             {{#users}}
                 <div>
-                    <td><input type="checkbox" name="checkbox" value={{login}}>{{login}}</td>
+                    <input type="checkbox" name="checkbox" value={{login}}>{{login}}
                 </div>
             {{/users}}
         </form>
-        <form method="post" action="/groupChats">
-            {{#chats}}
-                <div>
-                    <a href="/GroupChat/{{id}}"><strong>{{name}}</strong></a>
-                </div>
-            {{/chats}}
-        </form>
+        {{#chats}}
+            <div>
+                <a href="/GroupChat/{{id}}"><strong>{{name}}</strong></a>
+            </div>
+        {{/chats}}
+
     </div>
 </div>

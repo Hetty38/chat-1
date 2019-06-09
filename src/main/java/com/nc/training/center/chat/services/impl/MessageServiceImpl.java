@@ -27,10 +27,11 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.save(message);
         return true;
     }
-    @Override
-    public boolean addMessage(String text, User user) {
 
-        Message message = new Message(text, user);
+    @Override
+    public boolean addMessage(String text, User user, GroupChat groupChat) {
+
+        Message message = new Message(text, user, groupChat);
         messageRepository.save(message);
         return true;
     }
@@ -50,7 +51,6 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Iterable<Message> MessagesInGroupChat(GroupChat groupChat) {
-
 
         return messageRepository.findAllByGroupChat(groupChat);
     }

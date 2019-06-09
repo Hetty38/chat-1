@@ -1,12 +1,15 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div>Hello, user</div>
-<a href="/UsersListPage">Main page</a>
-<a href="/CreateChat">Create Group Chat</a>
+<form action="/logout" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <input type="submit" value="Sign Out"/>
+</form>
+<div>Добро пожаловать!</div>
+<a href="/UsersListPage">Посмотреть список личных чатов</a>
+<a href="/CreateChat">Создать групповой чат</a>
 </body>
 </html>

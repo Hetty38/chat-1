@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends CrudRepository<Message, Long> {
-    List<Message> findAllByAuthor_LoginAndAddressee_Login(String author,String addressee);
+    List<Message> findAllByAuthor_LoginAndAddressee_Login(String author, String addressee);
+
     List<Message> findAllByGroupChat(GroupChat groupChat);
 }

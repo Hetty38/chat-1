@@ -1,6 +1,5 @@
 package com.nc.training.center.chat.controllers;
 
-import com.nc.training.center.chat.ChatApplication;
 import com.nc.training.center.chat.domains.GroupChat;
 import com.nc.training.center.chat.domains.Message;
 import com.nc.training.center.chat.domains.User;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.*;
-import java.util.logging.Logger;
+
 
 @Controller
 public class MessageController {
@@ -29,6 +28,7 @@ public class MessageController {
     @Autowired
     private GroupChatServiceImpl groupChatService;
     private final static org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MessageController.class);
+
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
         return "home";
@@ -40,32 +40,10 @@ public class MessageController {
         return "login";
 
     }
-/*
-    @GetMapping("/UserPage")
-    public String UserPage(Map<String, Object> mod) {
-        Iterable<Message> messages = messageRepository.findAll();
-        mod.put("messages", messages);
-        return "UserPage";
-    }*/
-
-    /*@PostMapping("/UserPage")
-    public String add(String text, Map<String, Object> mod, @AuthenticationPrincipal User user) {
-        try {
-            User addr = userRepository.findByLogin(addressee);
-            messageService.addMessage(text, user, addr);
-            Iterable<Message> messages = messageRepository.findAll();
-            mod.put("messages", messages);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        return "UserPage";
-    }*/
 
     @GetMapping("/UsersListPage")
-    public String usersListPage(Map<String, Object> mod) {
-        Iterable<User> users = userService.GetAllUsers();
+    public String usersListPage(Map<String, Object> mod, @AuthenticationPrincipal User user) {
+        Iterable<User> users = userService.GetAllUsers(user);
         mod.put("users", users);
         return "UsersListPage";
     }
@@ -76,18 +54,19 @@ public class MessageController {
         groupChat.getUsersInChat().add(user);
         Iterable<Message> messages = messageService.MessagesInGroupChat(groupChat);
         mod.put("messages", messages);
-        return "GroupChat/{IdChat}";
+        return "GroupChat";
     }
 
     @PostMapping("/GroupChat/{IdChat}")
     public String groupChatPost(Map<String, Object> mod, @AuthenticationPrincipal User user, @PathVariable Long IdChat, String text) {
         GroupChat groupChat = groupChatService.getGroupChatById(IdChat);
-        groupChat.getUsersInChat().add(user);
-        messageService.addMessage(text, user);
+        //  groupChat.getUsersInChat().add(user);
+        messageService.addMessage(text, user, groupChat);
         Iterable<Message> messages = messageService.MessagesInGroupChat(groupChat);
         mod.put("messages", messages);
-        return "GroupChat/{IdChat}";
+        return "redirect:/GroupChat/" + IdChat;
     }
+
 
     @GetMapping("/PersonalChat/{addressee}")
     public String chatM(Map<String, Object> mod, @PathVariable("addressee") String addressee, @AuthenticationPrincipal User user) {
@@ -98,34 +77,29 @@ public class MessageController {
     }
 
     @GetMapping("/PersonalChat")
-    public String chat(Map<String, Object> mod) {
+    public String chat() {
         return "PersonalChat";
     }
 
     @GetMapping("/CreateChat")
-    public String createChat(Map<String, Object> mod) {
-        Iterable<User> users = userService.GetAllUsers();
+    public String createChat(Map<String, Object> mod, @AuthenticationPrincipal User user) {
+        Iterable<User> users = userService.GetAllUsers(user);
         mod.put("users", users);
+        List<GroupChat> groupChats = groupChatService.getChatsByUsersContains(user);
+        mod.put("chats", groupChats);
         return "CreateChat";
     }
 
     @PostMapping("/CreateChat")
-    public String postCreateChat(String[] checkbox, String chat) {
+    public String postCreateChat(String[] checkbox, String chat, @AuthenticationPrincipal User user) {
 
-        GroupChat groupChat = groupChatService.createGroupChat(checkbox, chat);
+        GroupChat groupChat = groupChatService.createGroupChat(checkbox, chat, user);
 
 
-        return "GroupChat/" + groupChat.getId();
+        return "redirect:/GroupChat/" + groupChat.getId();
 
     }
 
-    @GetMapping("groupChats")
-    public String listGroupChats(Map<String, Object> mod, @AuthenticationPrincipal User user) {
-
-        Iterable<GroupChat> groupChats = groupChatService.getChatsByUsersContains(user);
-        mod.put("groupChats", groupChats);
-        return "/CreateChat";
-    }
 
     @PostMapping("/PersonalChat/{addressee}")
     public String addInChat(String text, Map<String, Object> mod, @AuthenticationPrincipal User user, @PathVariable("addressee") String addressee) {
@@ -147,8 +121,10 @@ public class MessageController {
         Iterable<User> users;
 
         if (filter != null && !filter.isEmpty()) {
+
             users = userService.FilterByLogin(filter);
         } else {
+
             users = userService.GetAllUsers();
         }
 
@@ -156,8 +132,9 @@ public class MessageController {
 
         return "/UsersListPage";
     }
-
 }
+
+
 
 
 

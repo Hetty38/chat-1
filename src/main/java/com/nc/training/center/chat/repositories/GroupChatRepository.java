@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface GroupChatRepository extends CrudRepository<GroupChat, Long> {
-    // GroupChat findById(Long id);
     Optional<GroupChat> findById(Long id);
+
     List<GroupChat> findAllByUsersInChatContains(User user);
 }

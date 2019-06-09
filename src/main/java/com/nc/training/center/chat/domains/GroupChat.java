@@ -5,13 +5,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "grChat")
 public class GroupChat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;// почему- то не генерится
-    @ElementCollection(targetClass = User.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "users_in_chat", joinColumns = @JoinColumn(name = "group_chat_id"))
+    private Long id;
+    @ManyToMany
+    @JoinTable(name = "users_chats",
+            joinColumns = @JoinColumn(name = "group_chat_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> usersInChat;
     private String name;
 

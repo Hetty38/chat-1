@@ -9,7 +9,8 @@ import java.util.Map;
 
 public interface MessageService {
     boolean addMessage(String text, User user, User addr);
-    boolean addMessage(String text, User user);
+
+    boolean addMessage(String text, User user, GroupChat groupChat);
 
     List<Message> chat(Map<String, Object> mod, String addressee, User user);
 

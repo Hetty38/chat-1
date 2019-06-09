@@ -54,10 +54,12 @@ public class Message {
         this.author = user;
         this.addressee = addressee;
     }
-    public Message(String text, User user) {
+    public Message(String text, User user, GroupChat groupChat) {
         this.text = text;
         this.author = user;
+        this.groupChat = groupChat;
     }
+
 
     public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";

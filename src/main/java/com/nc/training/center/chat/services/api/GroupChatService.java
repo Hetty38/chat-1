@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface GroupChatService {
     GroupChat getGroupChatById(Long id);
+
     List<GroupChat> getChatsByUsersContains(User user);
-    GroupChat createGroupChat(String[] checkbox,String name);
+
+    GroupChat createGroupChat(String[] checkbox, String name, User user);
 }

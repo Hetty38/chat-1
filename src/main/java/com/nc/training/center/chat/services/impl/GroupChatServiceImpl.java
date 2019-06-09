@@ -5,9 +5,11 @@ import com.nc.training.center.chat.domains.User;
 import com.nc.training.center.chat.repositories.GroupChatRepository;
 import com.nc.training.center.chat.services.api.GroupChatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -17,6 +19,7 @@ public class GroupChatServiceImpl implements GroupChatService {
     GroupChatRepository groupChatRepository;
     @Autowired
     UserServiceImpl userService;
+
     @Override
     public GroupChat getGroupChatById(Long id) {
 
@@ -29,13 +32,14 @@ public class GroupChatServiceImpl implements GroupChatService {
     }
 
     @Override
-    public GroupChat createGroupChat(String[] checkbox, String name) {
+    public GroupChat createGroupChat(String[] checkbox, String name,User user) {
         GroupChat groupChat = new GroupChat(name);
         List<User> grChatusers = new ArrayList<>();
-        for (String check : checkbox) {
-            grChatusers.addAll(userService.getUsersByLogin(check));
-        }
+
+        grChatusers.addAll(userService.getUserByLogin(Arrays.asList(checkbox)));
+        grChatusers.add(user);
         groupChat.setUsersInChat(grChatusers);
+        groupChatRepository.save(groupChat);
         return groupChat;
     }
 }
